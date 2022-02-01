@@ -4,7 +4,7 @@ from rest_framework.routers import SimpleRouter
 from . import views
 from .views import DroneCategoryViewSet, PilotViewSet
 
-app_name = 'drones'
+app_name = 'drone'
 
 # router = SimpleRouter()
 # router.register('drone-categories', DroneCategoryViewSet, basename='drone-categories')
@@ -16,7 +16,7 @@ app_name = 'drones'
 
 urlpatterns = [
     path('drones/', views.DroneList.as_view(), name='drones'),
-    path('drones/<int:pk>/', views.DroneDetail.as_view(), name='drones-detail'),
+    path('drones/<int:pk>/', views.DroneDetail.as_view(), name='drone-detail'),
 
     path('competitions/', views.CompetitionList.as_view(), name='competitions'),
     path('competitions/<int:pk>/', views.CompetitionDetail.as_view(), name='competition-detail'),
