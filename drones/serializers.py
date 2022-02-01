@@ -9,10 +9,18 @@ class DroneCategorySerializer(serializers.ModelSerializer):
         fields = ('name', 'pk')
 
 
-class DroneSerializer(serializers.ModelSerializer):
+class DroneSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='drones:drones-detail', lookup_field='pk')
+    drone_category = serializers.SlugRelatedField(queryset=DroneCategory.objects.all(), slug_field='name')
+
+    # to musi byc bo jest app_name w urlsach
+
     class Meta:
         model = Drone
-        fields = ('name', 'drone_category', 'manufacturing_date', 'has_it_competed', 'inserted_timestamp', 'pk')
+        fields = ('url', 'name', 'drone_category', 'manufacturing_date', 'has_it_competed', 'inserted_timestamp')
+        # lookup_field = ('pk',)
+        # depth = 1
+        # read_only_fields = ('name', )
 
 
 class PilotSerializer(serializers.ModelSerializer):
@@ -21,7 +29,21 @@ class PilotSerializer(serializers.ModelSerializer):
         fields = ('name', 'gender', 'races_count', 'inserted_timestamp', 'pk')
 
 
-class CompetitionSerializer(serializers.ModelSerializer):
+# class CompetitionSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Competition
+#         fields = ('pilot', 'drone', 'distance', 'achievement_date', 'pk')
+
+
+class CompetitionSerializer(serializers.HyperlinkedModelSerializer):
+    drone = DroneSerializer()
+
     class Meta:
         model = Competition
-        fields = ('pilot', 'drone', 'distance', 'achievement_date', 'pk')
+        fields = ('url', 'distance', 'achievement_date', 'drone')
+        extra_kwargs = {
+            "url": {
+                "view_name": "drones:competition-detail",
+                "lookup_field": "pk"
+            },
+        }

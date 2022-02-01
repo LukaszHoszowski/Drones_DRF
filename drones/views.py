@@ -1,3 +1,4 @@
+from rest_framework import generics
 from rest_framework.viewsets import ModelViewSet
 
 from .models import DroneCategory, Drone, Pilot, Competition
@@ -9,9 +10,21 @@ class DroneCategoryViewSet(ModelViewSet):
     serializer_class = DroneCategorySerializer
 
 
-class DroneViewSet(ModelViewSet):
+class DroneList(generics.ListCreateAPIView):
     queryset = Drone.objects.all()
     serializer_class = DroneSerializer
+    name = 'drone-list'
+
+
+class DroneDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Drone.objects.all()
+    serializer_class = DroneSerializer
+    name = 'drone-detail'
+
+
+# class DroneViewSet(ModelViewSet):
+#     queryset = Drone.objects.all()
+#     serializer_class = DroneSerializer
 
 
 class PilotViewSet(ModelViewSet):
@@ -19,6 +32,16 @@ class PilotViewSet(ModelViewSet):
     serializer_class = PilotSerializer
 
 
-class CompetitionViewSet(ModelViewSet):
+# class CompetitionViewSet(ModelViewSet):
+#     queryset = Competition.objects.all()
+#     serializer_class = CompetitionSerializer
+
+
+class CompetitionList(generics.ListCreateAPIView):
+    queryset = Competition.objects.all()
+    serializer_class = CompetitionSerializer
+
+
+class CompetitionDetail(generics.ListCreateAPIView):
     queryset = Competition.objects.all()
     serializer_class = CompetitionSerializer
