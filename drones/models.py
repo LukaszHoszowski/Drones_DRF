@@ -51,4 +51,4 @@ class Competition(models.Model):
         ordering = ('-distance',)
 
     def __str__(self):
-        return self.distance
+        return f'{self.distance}'
